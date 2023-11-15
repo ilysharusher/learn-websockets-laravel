@@ -24,20 +24,16 @@ function send() {
 
 <template>
     <div class="container mx-auto my-4 px-4">
-        <div v-if="messages.length">
-            <h3>Messages</h3>
-            <div v-for="(message, id) in messages" :key="id">
-                {{ message.id }} - {{ message.message }} - {{ message.time }}
-            </div>
-        </div>
         <div class="my-3">
-            <div>
-                <input v-model="message" class="rounded-2xl" type="text" placeholder="Message">
-            </div>
-            <div>
-                <button @click="send" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl my-3">
-                    Send
-                </button>
+            <input v-model="message" class="rounded-2xl" type="text" placeholder="Message">
+            <button @click="send" class="ml-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-2xl my-3">
+                Send
+            </button>
+        </div>
+        <div v-if="messages.length">
+            <h3 class="font-bold mb-2">Messages</h3>
+            <div class="border-b" v-for="(message, id) in messages" :key="id">
+                {{ message.id }} - {{ message.message }} - {{ message.time }}
             </div>
         </div>
     </div>

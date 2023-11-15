@@ -12,7 +12,9 @@ class MessageController extends Controller
 {
     public function index(): \Inertia\Response
     {
-        $messages = Message::all();
+        $messages = Message::query()
+            ->latest()
+            ->get();
 
         return inertia('Message/Index', [
             'messages' => MessageResource::collection($messages)->resolve()
