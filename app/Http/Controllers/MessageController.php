@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StoreMessageEvent;
 use App\Http\Requests\Message\StoreRequest;
 use App\Http\Resources\Message\MessageResource;
 use App\Models\Message;
@@ -24,6 +25,8 @@ class MessageController extends Controller
     public function store(StoreRequest $request): array
     {
         $message = Message::query()->create($request->validated());
+
+        event(new StoreMessageEvent($message));
 
         return MessageResource::make($message)->resolve();
     }
