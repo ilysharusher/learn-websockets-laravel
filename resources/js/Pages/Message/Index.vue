@@ -7,6 +7,10 @@ const props = defineProps({
     }
 });
 
+window.Echo.channel('store-message').listen('.store-message', (response) => {
+    props.messages.unshift(response.message);
+});
+
 const message = ref('');
 
 function send() {
