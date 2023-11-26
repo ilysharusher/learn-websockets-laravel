@@ -1,6 +1,7 @@
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {usePage} from "@inertiajs/vue3";
+import Echo from "laravel-echo";
 
 const props = defineProps({
     'user': {
@@ -8,17 +9,24 @@ const props = defineProps({
     }
 });
 
+const ownerID = usePage().props.auth.user.id;
+
 const likes = ref('');
 
 const like = () => {
-    axios.post(route('user.store', props.user.id), {
-        from_user_id: usePage().props.auth.user.id
+    axios.post(route('user.like', props.user.id), {
+        from_user_id: ownerID
     }).then(response => {
         likes.value = response.data.likeString;
     }).catch(error => {
         console.log(error);
     });
 };
+
+window.Echo.channel(`send_like_${ownerID}`)
+    .listen('.send_like', (res) => {
+        likes.value = res.likeString;
+    });
 </script>
 
 <template>

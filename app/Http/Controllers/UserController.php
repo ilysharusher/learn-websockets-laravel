@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendLikeEvent;
 use App\Http\Requests\User\SendLikeRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,9 +19,11 @@ class UserController extends Controller
         //
     }*/
 
-    public function store(SendLikeRequest $request): \Illuminate\Http\JsonResponse
+    public function sendLike(User $user, SendLikeRequest $request): \Illuminate\Http\JsonResponse
     {
-        $likeString = 'You have liked ' . $request->validated()['from_user_id'] . '!';
+        $likeString = 'You have liked from ' . $request->validated()['from_user_id'] . '!';
+
+        broadcast(new SendLikeEvent($user->id, $likeString))->toOthers();
 
         return response()->json([
             'likeString' => $likeString,
