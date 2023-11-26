@@ -23,7 +23,7 @@ const like = () => {
     });
 };
 
-window.Echo.channel(`send_like_${ownerID}`)
+window.Echo.private(`send_like_${ownerID}`)
     .listen('.send_like', (res) => {
         likes.value = res.likeString;
     });

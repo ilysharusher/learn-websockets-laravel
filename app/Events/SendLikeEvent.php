@@ -26,7 +26,7 @@ class SendLikeEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('send_like_' . $this->user_id),
+            new PrivateChannel('send_like_' . $this->user_id),
         ];
     }
 
